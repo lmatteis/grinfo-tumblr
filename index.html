@@ -8,6 +8,95 @@
     <meta name="description" content="{MetaDescription}" />
   {/block:Description}
   <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+(function(){
+
+// takes care of parsing the body str html
+function BodyParser(bodyStr) {
+  this.$body = $(bodyStr);
+}
+BodyParser.prototype.getFirstImage = function() {
+  var res = this.$body.find("img");
+  return res.eq(0).attr("src");
+};
+BodyParser.prototype.getFirst = function(i, str){
+  return str.replace(new RegExp("(([^\s]+\s\s*){"+i+"})(.*)"),"$1…");
+};
+BodyParser.prototype.getSubtitle = function() {
+  var res = this.$body.text();
+  var firstP = this.$body.find("p:first");
+  return $.trim(this.getFirst(10, firstP.text()));
+}
+BodyParser.prototype.getSummary = function() {
+  var res = this.$body.text();
+  return $.trim(this.getFirst(20, res));
+}
+
+function showIndex() {
+  function addFirst(data) {
+    // imgSrc, permalink, title, subtitle, body, date
+    var $first = $($("#first-post").html());
+    $first.find("span.thumb").attr("style", "background-image:url("+data.imgSrc+")");
+    $first.find("a:first").attr("href", data.permalink);
+    $first.find("span.title").text(data.title);
+    $first.find("small.subtitle").text(data.subtitle);
+    $first.find("span.prose").text(data.body);
+    $first.find("small.date").text(data.date);
+    $("ul.heroes").append($first);
+  }
+  function addOther(imgSrc, permalink, title, body, date) {
+  }
+  function getData($domPost) {
+    var o = {
+      "text": function($post) {
+        var ret = {};
+        var a = $post.find("h3.tumblr-title a");
+        var parser = new BodyParser($post.find("span.tumblr-body").html());
+        ret.imgSrc = parser.getFirstImage();
+        ret.permalink = a.attr("href");
+        ret.title = a.text();
+        ret.subtitle = parser.getSubtitle();
+        ret.body = parser.getSummary();
+        ret.date = "FUCK THIS";
+
+        return ret;
+      }
+    };
+
+    var className = $domPost.attr("class");
+    if(o[className])
+      return o[className]($domPost);
+    else
+      return {};
+  }
+  function showPost($domPost, idx) {
+    // based on the className, get the data for this post
+    var data = getData($domPost);
+    if(idx === 0) {
+      addFirst(data);
+    } else {
+      addOther(data);
+    }
+  }
+
+  var $tumblrData = $("#tumblr-data");
+  // get first 4 posts from tumblr-data
+  var $children = $tumblrData.children();
+  for(var i=0; i<$children.length; i++) {
+    if(i > 3) break;
+    var $domPost = $children.eq(i);
+    if($domPost) {
+      showPost($domPost, i);
+    }
+  }
+}
+
+$(function(){
+  showIndex();
+});
+})();
+</script>
 <style>
 html {
     background-color: #F4F4F4 !important;
@@ -320,6 +409,19 @@ line-height: 150%;
 
 </style>
 </head>
+<!-- templates -->
+<script id="first-post" type="text/html">
+  <li class="hero top">
+    <a href="{Permalink}">
+      <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
+      <span class="title">{Title}</span>
+      <small class="subtitle">{Title}</small>
+      <span markdown="1" class="prose">{Body}</span>
+      <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
+    </a>
+  </li>
+</script>
+<!-- /templates -->
 <body>
   <div id="header">
     <div class="container-fluid">
@@ -333,9 +435,9 @@ line-height: 150%;
           <ul class="pills">
             <li class=""><a href="#"><img width="24" height="24" alt="" src="https://github.com/lmatteis/grinfo-tumblr/raw/master/images/home_32.png" class=""></a></li>
             <li class="page_item page-item-2"><a href="#">About</a></li>
-<li class="page_item page-item-1158"><a href="#">Projects</a></li>
-<li class="page_item page-item-319"><a href="#">Blog</a></li>
-<li class="page_item page-item-11 current_page_item"><a href="#">Contact</a></li>
+            <li class="page_item page-item-1158"><a href="#">Projects</a></li>
+            <li class="page_item page-item-319"><a href="#">Blog</a></li>
+            <li class="page_item page-item-11 current_page_item"><a href="#">Contact</a></li>
       
               <li>
                <a href="#" rel="alternate" class="rss" style="color: #C66809">Feed</a>
@@ -356,60 +458,19 @@ line-height: 150%;
     <div class="row">
 <div class="heroes clearfix">
 <ul class="heroes clearfix">
-  {block:Posts}
-    {block:Photo}
-      {block:IndexPage}
-  {block:Post1} 
-  <li class="hero top">
-    <a href="{Permalink}">
-    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
-    <span class="title">{Caption}</span>
-    <small class="subtitle">{Caption}</small>
-    <span markdown="1" class="prose">{Caption}</span>
-    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
-    </a>
-  </li>
-  {/block:Post1} 
   <!-- right side -->
-  {block:Post2} 
+  <!--
   <li>
     <a href="{Permalink}">
     
     <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
     
-    <span class="title">{Caption}</span>
-    <small class="subtitle">{Caption}</small>
+    <span class="title">{PhotoAlt}</span>
+    <small class="subtitle">{PhotoAlt}</small>
     <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
     </a>
   </li>
-  {/block:Post2} 
-  {block:Post3} 
-  <li>
-    <a href="{Permalink}">
-    
-    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
-    
-    <span class="title">{Caption}</span>
-    <small class="subtitle">{Caption}</small>
-    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
-    </a>
-  </li>
-  {/block:Post3} 
-  {block:Post4} 
-  <li>
-    <a href="{Permalink}">
-    
-    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
-    
-    <span class="title">{Caption}</span>
-    <small class="subtitle">{Caption}</small>
-    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
-    </a>
-  </li>
-  {/block:Post4} 
-      {/block:IndexPage}
-    {/block:Photo}
-  {/block:Posts}
+  -->
   <!-- /right side -->
 </ul>
   <div class="more">
@@ -435,5 +496,102 @@ line-height: 150%;
       </div>
     </div>
   </div><!-- /footer -->
+
+  <!-- data from tumblr which is hidden and displayed with JavaScript. Displaying HTML to allow SEO to crawl and get data -->
+  <div id="tumblr-data" style="display: none;">
+            {block:Posts}
+                {block:Text}
+                    <li class="text">
+                        {block:Title}
+                            <h3 class="tumblr-title"><a href="{Permalink}">{Title}</a></h3>
+                        {/block:Title}
+
+                        <span class="tumblr-body">
+                        {Body}
+                        </span>
+                    </li>
+                {/block:Text}
+
+                {block:Photo}
+                    <li class="photo">
+                        <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
+
+                        {block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Photo}
+
+                {block:Photoset}
+                    <li class="photoset">
+                        {Photoset-500}
+
+                        {block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Photoset}
+
+                {block:Quote}
+                    <li class="quote">
+                        "{Quote}"
+
+                        {block:Source}
+                            <div class="source">{Source}</div>
+                        {/block:Source}
+                    </li>
+                {/block:Quote}
+
+                {block:Link}
+                    <li class="link">
+                        <a href="{URL}" class="link" {Target}>{Name}</a>
+
+                        {block:Description}
+                            <div class="description">{Description}</div>
+                        {/block:Description}
+                    </li>
+                {/block:Link}
+
+                {block:Chat}
+                    <li class="chat">
+                        {block:Title}
+                            <h3><a href="{Permalink}">{Title}</a></h3>
+                        {/block:Title}
+
+                        <ul class="chat">
+                            {block:Lines}
+                                <li class="{Alt} user_{UserNumber}">
+                                    {block:Label}
+                                        <span class="label">{Label}</span>
+                                    {/block:Label}
+
+                                    {Line}
+                                </li>
+                            {/block:Lines}
+                        </ul>
+                    </li>
+                {/block:Chat}
+
+                {block:Video}
+                    <li class="video">
+                        {Video-500}
+
+                        {block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Video}
+
+                {block:Audio}
+                    <li class="audio">
+                        {AudioPlayerBlack}
+
+                        {block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Audio}
+            {/block:Posts}
+  </div><!-- /tumblr-data -->
 </body>
 </html>
