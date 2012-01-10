@@ -160,6 +160,16 @@ a.btn {
 img {
     border-style: none;
 }
+iframe {
+  display:none;
+}
+.content {
+  overflow: hidden;
+  display: inline;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
 .content h1 {
     color: #383D44;
     font-size: 30px;
@@ -169,8 +179,14 @@ img {
 }
 .content p {
   line-height: 150%;
+  /*
   margin: 0;
   padding: 0;
+  */
+}
+.content h1 a, .content h1 a:visited {
+  color: #383D44;
+  text-decoration: none;
 }
 h1.big {
     font-size: 42px;
@@ -471,12 +487,12 @@ line-height: 150%;
       <div class="row">
         <div class="span5">
           <div class="headerleft">
-            <a href="#"><b>Agrobiodiversity</b><br /> Informatics</a>
+            <a href="/"><b>Agrobiodiversity</b><br /> Informatics</a>
           </div>
         </div>
         <div class="span11 headerright">
           <ul class="pills">
-            <li class=""><a href="#"><img width="24" height="24" alt="" src="https://github.com/lmatteis/grinfo-tumblr/raw/master/images/home_32.png" class=""></a></li>
+            <li class=""><a href="/"><img width="24" height="24" alt="" src="https://github.com/lmatteis/grinfo-tumblr/raw/master/images/home_32.png" class=""></a></li>
             <li class="page_item page-item-2"><a href="#">About</a></li>
             <li class="page_item page-item-1158"><a href="#">Projects</a></li>
             <li class="page_item page-item-319"><a href="#">Blog</a></li>
@@ -500,21 +516,23 @@ line-height: 150%;
   <div class="container-fluid">
     <div class="row">
 {block:IndexPage}
-<div class="heroes clearfix">
-<ul class="heroes clearfix">
-</ul>
-  <div class="more">
-    <a href="#" class="btn large info">All posts &rarr;</a>
+<div class="span16">
+  <div class="heroes clearfix">
+    <ul class="heroes clearfix">
+    </ul>
+    <div class="more">
+      <a href="#" class="btn large info">All posts &rarr;</a>
+    </div>
   </div>
 </div>
 {/block:IndexPage}
   <!-- data from tumblr which is hidden and displayed with JavaScript. Displaying HTML to allow SEO to crawl and get data -->
-  <div id="tumblr-data" style="display: none;">
+  <div id="tumblr-data" class="span11 content" style="display: none;">
             {block:Posts}
                 {block:Text}
-                    <li class="text">
+                    <span class="text">
                         {block:Title}
-                            <h3><a class="tumblr-title" href="{Permalink}">{Title}</a></h3>
+                            <h1><a class="tumblr-title" href="{Permalink}">{Title}</a></h1>
                             <span style="display: none;" class="tumblr-permalink">{Permalink}</span>
                         {/block:Title}
 
@@ -522,11 +540,11 @@ line-height: 150%;
                         {Body}
                         </span>
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
-                    </li>
+                    </span>
                 {/block:Text}
 
                 {block:Photo}
-                    <li class="photo">
+                    <span class="photo">
                         <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
                         <span class="tumblr-permalink" style="display:none">{PhotoURL-HighRes}</span>
 
@@ -534,44 +552,44 @@ line-height: 150%;
                             <div class="caption tumblr-body">{Caption}</div>
                         {/block:Caption}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
-                    </li>
+                    </span>
                 {/block:Photo}
 
                 {block:Photoset}
-                    <li class="photoset">
+                    <span class="photoset">
                         {Photoset-500}
 
                         {block:Caption}
                             <div class="caption">{Caption}</div>
                         {/block:Caption}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
-                    </li>
+                    </span>
                 {/block:Photoset}
 
                 {block:Quote}
-                    <li class="quote">
+                    <span class="quote">
                         "{Quote}"
 
                         {block:Source}
                             <div class="source">{Source}</div>
                         {/block:Source}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
-                    </li>
+                    </span>
                 {/block:Quote}
 
                 {block:Link}
-                    <li class="link">
+                    <span class="link">
                         <a href="{URL}" class="link" {Target}>{Name}</a>
 
                         {block:Description}
                             <div class="description">{Description}</div>
                         {/block:Description}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
-                    </li>
+                    </span>
                 {/block:Link}
 
                 {block:Chat}
-                    <li class="chat">
+                    <span class="chat">
                         {block:Title}
                             <h3><a href="{Permalink}">{Title}</a></h3>
                         {/block:Title}
@@ -588,29 +606,29 @@ line-height: 150%;
                             {/block:Lines}
                         </ul>
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
-                    </li>
+                    </span>
                 {/block:Chat}
 
                 {block:Video}
-                    <li class="video">
+                    <span class="video">
                         {Video-500}
 
                         {block:Caption}
                             <div class="caption">{Caption}</div>
                         {/block:Caption}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
-                    </li>
+                    </span>
                 {/block:Video}
 
                 {block:Audio}
-                    <li class="audio">
+                    <span class="audio">
                         {AudioPlayerBlack}
 
                         {block:Caption}
                             <div class="caption">{Caption}</div>
                         {/block:Caption}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
-                    </li>
+                    </span>
                 {/block:Audio}
             {/block:Posts}
   </div><!-- /tumblr-data -->
@@ -619,7 +637,7 @@ line-height: 150%;
   <div style="clear:both;"></div>
   <div class="container-fluid"><!-- footer -->
     <div class="row">
-    <div id="footerwrap">
+    <div id="footerwrap" class="span16">
       <div id="footer">
         <p>&copy; 2012 This work is licensed.</p>
         <div class="bioinfo">
