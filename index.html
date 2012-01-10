@@ -20,7 +20,7 @@ body p {
     font-size: 15px;
     line-height: 150%;
 }
-a, a:visited {
+a {
   color: #3E90C6;
   text-decoration: underline;
   transition: .2s ease;
@@ -170,13 +170,42 @@ h1.big {
     line-height: 17px;
     margin: 0 auto 10px;
     padding: 5px 0;
-    text-align: center;
+    text-align: right;
 }
 #footer p {
     color: #404040;
     font-size: 14px;
     margin: 0;
     padding: 0;
+}
+div.bioinfo {
+    text-align: left;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: url("images/bioversity_logo.png");
+    background-origin: padding-box;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: auto 4em;
+    float: left;
+    margin-bottom: 2em;
+    margin-top: -2em;
+    padding-left: 5em;
+    width: 300px;
+}
+div.bioinfo dl {
+    font-size: 0.85em;
+    position: relative;
+    top: 0.6em;
+}
+div.bioinfo dt:after {
+    content: ":";
+    display: inline-block;
+    padding-right: 0.3em;
+}
+div.bioinfo dt {
+    float: left;
 }
 
 </style>
@@ -242,8 +271,17 @@ h1.big {
     <div class="row">
     <div class="span16" id="footerwrap">
       <div id="footer">
-        <a href="#"><img alt="" src="images/bioversity_logo.png"></a>
-        <p>&copy; 2012 <a href="#">Luca Matteis</a>. This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" rel="license">Creative Commons License</a>. <a href="#header">Top</a></p>
+        <p>&copy; 2012 <a href="/">Luca Matteis</a>. This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" rel="license">Creative Commons License</a>. <a href="#header">Top</a></p>
+        <div class="bioinfo">
+          <dl>
+            <dt>Created by</dt>
+            <dd><a href="#">Luca Matteis</a></dd>
+            <dt>Organization</dt>
+            <dd><a href="http://www.bioversityinternational.org/">Bioversity International</a></dd>
+            <dt>Last Edited</dt>
+            <dd>January 5, 2012</dd>
+          </dl>
+        </div>
       </div>
     </div>
   </div><!-- /footer -->
