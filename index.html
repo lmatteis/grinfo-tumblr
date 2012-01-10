@@ -12,25 +12,36 @@
 <script>
 (function(){
 
+function summary(str, max) {
+  var result = str;
+  var resultArray = result.split(" ");
+  if(resultArray.length > max){
+    resultArray = resultArray.slice(0, max);
+    result = resultArray.join(" ") + "…";
+  }
+  return result;
+}
 // takes care of parsing the body str html
-function BodyParser(bodyStr) {
-  this.$body = $(bodyStr);
+function BodyParser($body) {
+  this.$body = $body;
 }
 BodyParser.prototype.getFirstImage = function() {
   var res = this.$body.find("img");
   return res.eq(0).attr("src");
 };
-BodyParser.prototype.getFirst = function(i, str){
-  return str.replace(new RegExp("(([^\s]+\s\s*){"+i+"})(.*)"),"$1…");
-};
 BodyParser.prototype.getSubtitle = function() {
-  var res = this.$body.text();
-  var firstP = this.$body.find("p:first");
-  return $.trim(this.getFirst(10, firstP.text()));
+  var firstP = this.$body.find("p").eq(0);
+  var res = "";
+  if(firstP) {
+    res = firstP.text();
+  } else {
+    res = this.$body.text();
+  }
+  return summary($.trim(res), 20);
 }
 BodyParser.prototype.getSummary = function() {
   var res = this.$body.text();
-  return $.trim(this.getFirst(20, res));
+  return summary($.trim(res), 80);
 }
 
 function showIndex() {
@@ -45,14 +56,22 @@ function showIndex() {
     $first.find("small.date").text(data.date);
     $("ul.heroes").append($first);
   }
-  function addOther(imgSrc, permalink, title, body, date) {
+  function addOther(data) {
+    // imgSrc, permalink, title, body, date
+    var $other = $($("#other-post").html());
+    $other.find("span.thumb").attr("style", "background-image:url("+data.imgSrc+")");
+    $other.find("a:first").attr("href", data.permalink);
+    $other.find("span.title").text(data.title);
+    $other.find("span.prose").text(data.body);
+    $other.find("small.date").text(data.date);
+    $("ul.heroes").append($other);
   }
   function getData($domPost) {
     var o = {
       "text": function($post) {
         var ret = {};
         var a = $post.find("h3.tumblr-title a");
-        var parser = new BodyParser($post.find("span.tumblr-body").html());
+        var parser = new BodyParser($post.find("span.tumblr-body"));
         ret.imgSrc = parser.getFirstImage();
         ret.permalink = a.attr("href");
         ret.title = a.text();
@@ -421,6 +440,18 @@ line-height: 150%;
     </a>
   </li>
 </script>
+<script id="other-post" type="text/html">
+  <li>
+    <a href="{Permalink}">
+    
+    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
+    
+    <span class="title">{PhotoAlt}</span>
+    <small class="subtitle">{PhotoAlt}</small>
+    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
+    </a>
+  </li>
+</script>
 <!-- /templates -->
 <body>
   <div id="header">
@@ -459,18 +490,6 @@ line-height: 150%;
 <div class="heroes clearfix">
 <ul class="heroes clearfix">
   <!-- right side -->
-  <!--
-  <li>
-    <a href="{Permalink}">
-    
-    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
-    
-    <span class="title">{PhotoAlt}</span>
-    <small class="subtitle">{PhotoAlt}</small>
-    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
-    </a>
-  </li>
-  -->
   <!-- /right side -->
 </ul>
   <div class="more">
