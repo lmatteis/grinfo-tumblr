@@ -28,6 +28,9 @@ a {
   -moz-transition: .2s ease;
   -o-transition: .2s ease;
 }
+a.btn {
+    text-decoration: none !important;
+}
 img {
     border-style: none;
 }
@@ -208,6 +211,107 @@ div.bioinfo dt {
     float: left;
 }
 
+
+/** homepage blogs **/
+earfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+ul.heroes {
+    height: 600px;
+    margin: 0 -20px;
+    padding: 0 0 0 576px;
+    position: relative;
+}
+ul.heroes a {
+  text-decoration: none;
+}
+.clearfix {
+    display: block;
+}
+.heroes li {
+  list-style: none;
+}
+.heroes li.hero {
+    border: 0 none;
+    height: 540px;
+    left: 0;
+    padding: 0;
+    position: absolute;
+    width: 576px;
+}
+.heroes li a {
+    display: block;
+    min-height: 150px;
+    padding: 0 20px 10px;
+    color: #333333;
+}
+.heroes li a:hover span.title{
+  color: #00438a;
+}
+.heroes li.hero .thumb {
+    height: 320px;
+    margin: 0 0 10px;
+    width: 536px;
+}
+.heroes li .thumb {
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.25) inset;
+    height: 120px;
+    margin: 0 0 10px;
+}
+.thumb {
+    background: none no-repeat scroll 50% 50% #FFFFFF;
+    display: block;
+    overflow: hidden;
+    text-indent: -999px;
+}
+.heroes .hero .title {
+    font-size: 28px;
+    line-height: 30px;
+    margin: 0 0 10px;
+}
+.heroes .hero .subtitle {
+    color: #888888;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 0 0 20px;
+}
+.heroes .hero .title, .heroes .hero .subtitle {
+    display: block;
+    max-width: 85%;
+    overflow: visible;
+    white-space: normal;
+}
+.heroes li .title, .heroes li small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+small.date {
+    font-size: 10px;
+    text-align: right;
+    text-transform: uppercase;
+}
+small {
+    color: #888888;
+    display: block;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 150%;
+}
+.heroes span {
+line-height: 150%;
+}
+.more {
+    margin: 20px 0;
+    text-align: right;
+}
+
+
 </style>
 </head>
 <body>
@@ -244,26 +348,52 @@ div.bioinfo dt {
   </div><!-- /empty fontainer -->
   <div class="container-fluid">
     <div class="row">
-      <div class="span11 content">
-          <h1 class="big">Contact</h1>
-          <p>Ciao</p>
-          <div class="alert-message block-message success">
-          <p>I am currently available for freelance work.<br>
-          If you want my Curriculum Vitae or any other information please <a href="#">contact</a>.</p>
-        </div>
-      </div><!-- /content -->
-      <div class="sidebar span5">
-        <ul>
-          <li id="About">
-            <h2>Contact me</h2>
-            <p>You can contact me using this form. Please specify the subject that you can respond to an expeditious manner. Thank you.</p>
-          </li>
-          <li>
-            <h2>Email</h2>
-            <a href="mailto:info@email.com" class="email">info@email.com</a>
-          </li>
-        </ul>
-      </div><!-- /sidebar -->
+<div class="heroes clearfix">
+<ul class="heroes clearfix">
+  <li class="hero top">
+    <a href="/blog/2012/jan/09/announcing-new-mapbox-add-on-packages-for-power-users">
+    <span style="background-image:url(http://farm8.staticflickr.com/7019/6669803211_9106148de0_z.jpg)" class="thumb"></span>
+    <span class="title">Announcing New MapBox Add-on Packages for Power Users</span>
+    <small class="subtitle">Cloud-based pricing for adding more storage and bandwidth to your MapBox Premium account</small>
+    <span markdown="1" class="prose">In addition to MapBox.com's growing customer base, our users' hosted maps are scaling in popularity and complexity. Today we're announcing aggressive pricing to add more storage and transfer bandwidth to your MapBox Premium account. The idea is to provide simple, transparent pricing add-on packages on demand, with no long term commitments. </span>
+    <small class="date">January 09 2012</small>
+    </a>
+  </li>
+  <li class="top">
+    <a href="/blog/2012/jan/02/major-mapbox-investments-coming-2012">
+    <span style="background-image:url(http://farm3.staticflickr.com/2049/5812414817_62ef8de9fd.jpg)" class="thumb"></span>
+    
+    <span class="title">Major MapBox Investments Coming In 2012</span>
+    <small class="subtitle">Expanding MapBox after a year of stabilizing and optimizing our web mapping platform</small>
+    <small class="date">Jan 02 2012</small>
+    </a>
+  </li>
+  <li>
+  
+    <a href="/blog/2011/12/16/leveraging-data-social-inclusion-techcamp-bucharest">
+    
+    <span style="background-image:url(http://farm8.staticflickr.com/7153/6522267975_e214596ec8.jpg)" class="thumb"></span>
+    
+    <span class="title">Leveraging Data to Improve Social Inclusion at TechCamp Bucharest</span>
+    <small class="subtitle">Better data needed on Roma population to make effective decisions</small>
+    <small class="date">Dec 16 2011</small>
+    </a>
+  </li>
+  <li>
+    <a href="/blog/2011/12/13/mapbox-ipad-17-released">
+    
+    <span style="background-image:url(http://farm8.staticflickr.com/7008/6501637123_2866c804e0.jpg)" class="thumb"></span>
+    
+    <span class="title">MapBox for iPad 1.7 Released</span>
+    <small class="subtitle">Latest version brings map legend support, flexible templating, and iCloud backup customization</small>
+    <small class="date">Dec 13 2011</small>
+    </a>
+  </li>
+</ul>
+  <div class="more">
+  <a href="#" class="btn large info">All posts &rarr;</a>
+  </div>
+</div>
     </div><!-- /row -->
   </div><!-- /main content container -->
   <div style="clear:both;"></div>
@@ -271,11 +401,9 @@ div.bioinfo dt {
     <div class="row">
     <div class="span16" id="footerwrap">
       <div id="footer">
-        <p>&copy; 2012 <a href="/">Luca Matteis</a>. This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" rel="license">Creative Commons License</a>. <a href="#header">Top</a></p>
+        <p>&copy; 2012 This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" rel="license">Creative Commons License</a>.</p>
         <div class="bioinfo">
           <dl>
-            <dt>Created by</dt>
-            <dd><a href="#">Luca Matteis</a></dd>
             <dt>Organization</dt>
             <dd><a href="http://www.bioversityinternational.org/">Bioversity International</a></dd>
             <dt>Last Edited</dt>
