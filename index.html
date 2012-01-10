@@ -356,45 +356,61 @@ line-height: 150%;
     <div class="row">
 <div class="heroes clearfix">
 <ul class="heroes clearfix">
+  {block:Posts}
+    {block:Photo}
+      {block:IndexPage}
+  {block:Post1} 
   <li class="hero top">
-    <a href="/blog/2012/jan/09/announcing-new-mapbox-add-on-packages-for-power-users">
-    <span style="background-image:url(http://farm8.staticflickr.com/7019/6669803211_9106148de0_z.jpg)" class="thumb"></span>
-    <span class="title">Announcing New MapBox Add-on Packages for Power Users</span>
-    <small class="subtitle">Cloud-based pricing for adding more storage and bandwidth to your MapBox Premium account</small>
-    <span markdown="1" class="prose">In addition to MapBox.com's growing customer base, our users' hosted maps are scaling in popularity and complexity. Today we're announcing aggressive pricing to add more storage and transfer bandwidth to your MapBox Premium account. The idea is to provide simple, transparent pricing add-on packages on demand, with no long term commitments. </span>
-    <small class="date">January 09 2012</small>
+    <a href="{Permalink}">
+    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
+    <span class="title">{Caption}</span>
+    <small class="subtitle">{Caption}</small>
+    <span markdown="1" class="prose">{Caption}</span>
+    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
     </a>
   </li>
-  <li class="top">
-    <a href="/blog/2012/jan/02/major-mapbox-investments-coming-2012">
-    <span style="background-image:url(http://farm3.staticflickr.com/2049/5812414817_62ef8de9fd.jpg)" class="thumb"></span>
-    
-    <span class="title">Major MapBox Investments Coming In 2012</span>
-    <small class="subtitle">Expanding MapBox after a year of stabilizing and optimizing our web mapping platform</small>
-    <small class="date">Jan 02 2012</small>
-    </a>
-  </li>
+  {/block:Post1} 
+  <!-- right side -->
+  {block:Post2} 
   <li>
-  
-    <a href="/blog/2011/12/16/leveraging-data-social-inclusion-techcamp-bucharest">
+    <a href="{Permalink}">
     
-    <span style="background-image:url(http://farm8.staticflickr.com/7153/6522267975_e214596ec8.jpg)" class="thumb"></span>
+    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
     
-    <span class="title">Leveraging Data to Improve Social Inclusion at TechCamp Bucharest</span>
-    <small class="subtitle">Better data needed on Roma population to make effective decisions</small>
-    <small class="date">Dec 16 2011</small>
+    <span class="title">{Caption}</span>
+    <small class="subtitle">{Caption}</small>
+    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
     </a>
   </li>
+  {/block:Post2} 
+  {block:Post3} 
   <li>
-    <a href="/blog/2011/12/13/mapbox-ipad-17-released">
+    <a href="{Permalink}">
     
-    <span style="background-image:url(http://farm8.staticflickr.com/7008/6501637123_2866c804e0.jpg)" class="thumb"></span>
+    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
     
-    <span class="title">MapBox for iPad 1.7 Released</span>
-    <small class="subtitle">Latest version brings map legend support, flexible templating, and iCloud backup customization</small>
-    <small class="date">Dec 13 2011</small>
+    <span class="title">{Caption}</span>
+    <small class="subtitle">{Caption}</small>
+    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
     </a>
   </li>
+  {/block:Post3} 
+  {block:Post4} 
+  <li>
+    <a href="{Permalink}">
+    
+    <span style="background-image:url({PhotoURL-HighRes})" class="thumb"></span>
+    
+    <span class="title">{Caption}</span>
+    <small class="subtitle">{Caption}</small>
+    <small class="date">{ShortMonth} {DayOfMonth} {Year}</small>
+    </a>
+  </li>
+  {/block:Post4} 
+      {/block:IndexPage}
+    {/block:Photo}
+  {/block:Posts}
+  <!-- /right side -->
 </ul>
   <div class="more">
   <a href="#" class="btn large info">All posts &rarr;</a>
