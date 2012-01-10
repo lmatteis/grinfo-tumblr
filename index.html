@@ -119,7 +119,12 @@ function showIndex() {
 }
 
 $(function(){
+{block:IndexPage}
   showIndex();
+{/block:IndexPage}
+{block:PermalinkPage}
+  $("#tumblr-data").show();
+{/block:PermalinkPage}
 });
 })();
 </script>
@@ -494,35 +499,15 @@ line-height: 150%;
   </div><!-- /empty fontainer -->
   <div class="container-fluid">
     <div class="row">
+{block:IndexPage}
 <div class="heroes clearfix">
 <ul class="heroes clearfix">
-  <!-- right side -->
-  <!-- /right side -->
 </ul>
   <div class="more">
-  <a href="#" class="btn large info">All posts &rarr;</a>
+    <a href="#" class="btn large info">All posts &rarr;</a>
   </div>
 </div>
-    </div><!-- /row -->
-  </div><!-- /main content container -->
-  <div style="clear:both;"></div>
-  <div class="container-fluid"><!-- footer -->
-    <div class="row">
-    <div id="footerwrap">
-      <div id="footer">
-        <p>&copy; 2012 This work is licensed.</p>
-        <div class="bioinfo">
-          <dl>
-            <dt>Organization</dt>
-            <dd><a href="http://www.bioversityinternational.org/">Bioversity International</a></dd>
-            <dt>Last Edited</dt>
-            <dd>January 5, 2012</dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div><!-- /footer -->
-
+{/block:IndexPage}
   <!-- data from tumblr which is hidden and displayed with JavaScript. Displaying HTML to allow SEO to crawl and get data -->
   <div id="tumblr-data" style="display: none;">
             {block:Posts}
@@ -530,7 +515,7 @@ line-height: 150%;
                     <li class="text">
                         {block:Title}
                             <h3><a class="tumblr-title" href="{Permalink}">{Title}</a></h3>
-                            <span class="tumblr-permalink">{Permalink}</span>
+                            <span style="display: none;" class="tumblr-permalink">{Permalink}</span>
                         {/block:Title}
 
                         <span class="tumblr-body">
@@ -543,7 +528,7 @@ line-height: 150%;
                 {block:Photo}
                     <li class="photo">
                         <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
-                        <span class="tumblr-permalink">{PhotoURL-HighRes}</span>
+                        <span class="tumblr-permalink" style="display:none">{PhotoURL-HighRes}</span>
 
                         {block:Caption}
                             <div class="caption tumblr-body">{Caption}</div>
@@ -629,5 +614,25 @@ line-height: 150%;
                 {/block:Audio}
             {/block:Posts}
   </div><!-- /tumblr-data -->
+    </div><!-- /row -->
+  </div><!-- /main content container -->
+  <div style="clear:both;"></div>
+  <div class="container-fluid"><!-- footer -->
+    <div class="row">
+    <div id="footerwrap">
+      <div id="footer">
+        <p>&copy; 2012 This work is licensed.</p>
+        <div class="bioinfo">
+          <dl>
+            <dt>Organization</dt>
+            <dd><a href="http://www.bioversityinternational.org/">Bioversity International</a></dd>
+            <dt>Last Edited</dt>
+            <dd>January 5, 2012</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div><!-- /footer -->
+
 </body>
 </html>
