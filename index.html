@@ -31,17 +31,32 @@ BodyParser.prototype.getFirstImage = function() {
 };
 BodyParser.prototype.getSubtitle = function() {
   var firstP = this.$body.find("p").eq(0);
-  var res = "";
-  if(firstP) {
-    res = firstP.text();
-  } else {
+  var res = firstP.text();
+  if(!res) {
     res = this.$body.text();
   }
-  return summary($.trim(res), 20);
+  return summary($.trim(res), 18);
 }
 BodyParser.prototype.getSummary = function() {
-  var res = this.$body.text();
-  return summary($.trim(res), 80);
+  // loop through all the p's and find the first one
+  // that has text except the first one
+  var found = false;
+  var pbody = this.$body.find("p");
+  pbody.each(function(idx){
+    var $this = $(this),
+        text = $.trim($this.text());
+    if(!found && idx > 0 && text !== "") {
+      found = text;
+    }
+  });
+  if(!found) { // ok then get the first p
+    var firstP = pbody.eq(0);
+    var res = firstP.text();
+    if(!res) {
+      res = this.$body.text();
+    }
+  }
+  return summary(found, 80);
 }
 
 function showIndex() {
@@ -77,7 +92,7 @@ function showIndex() {
         ret.title = a.text();
         ret.subtitle = parser.getSubtitle();
         ret.body = parser.getSummary();
-        ret.date = "FUCK THIS";
+        ret.date = $post.find(".tumblr-date").text();
 
         return ret;
       }
@@ -528,6 +543,7 @@ line-height: 150%;
                         <span class="tumblr-body">
                         {Body}
                         </span>
+                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </li>
                 {/block:Text}
 
