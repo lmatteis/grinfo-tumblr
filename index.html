@@ -51,12 +51,12 @@ BodyParser.prototype.getSummary = function() {
   });
   if(!found) { // ok then get the first p
     var firstP = pbody.eq(0);
-    var res = firstP.text();
-    if(!res) {
-      res = this.$body.text();
+    var found = firstP.text();
+    if(!found) {
+      found = this.$body.text();
     }
   }
-  return summary(found, 80);
+  return summary($.trim(found), 80);
 }
 
 function showIndex() {
@@ -77,32 +77,24 @@ function showIndex() {
     $other.find("span.thumb").attr("style", "background-image:url("+data.imgSrc+")");
     $other.find("a:first").attr("href", data.permalink);
     $other.find("span.title").text(data.title);
-    $other.find("span.prose").text(data.body);
+    $other.find("small.subtitle").text(data.subtitle);
     $other.find("small.date").text(data.date);
     $("ul.heroes").append($other);
   }
-  function getData($domPost) {
-    var o = {
-      "text": function($post) {
-        var ret = {};
-        var a = $post.find("h3.tumblr-title a");
-        var parser = new BodyParser($post.find("span.tumblr-body"));
-        ret.imgSrc = parser.getFirstImage();
-        ret.permalink = a.attr("href");
-        ret.title = a.text();
-        ret.subtitle = parser.getSubtitle();
-        ret.body = parser.getSummary();
-        ret.date = $post.find(".tumblr-date").text();
-
-        return ret;
+  function getData($post) {
+      var ret = {};
+      var parser = new BodyParser($post.find(".tumblr-body"));
+      ret.imgSrc = parser.getFirstImage();
+      if(!ret.imgSrc) { // if no image is found look directly inside the $post for it
+        ret.imgSrc = $post.find("img").eq(0).attr("src");
       }
-    };
+      ret.permalink = $post.find(".tumblr-permalink").text();
+      ret.title = $post.find(".tumblr-title").text();
+      ret.subtitle = parser.getSubtitle();
+      ret.body = parser.getSummary();
+      ret.date = $post.find(".tumblr-date").text();
 
-    var className = $domPost.attr("class");
-    if(o[className])
-      return o[className]($domPost);
-    else
-      return {};
+      return ret;
   }
   function showPost($domPost, idx) {
     // based on the className, get the data for this post
@@ -537,7 +529,8 @@ line-height: 150%;
                 {block:Text}
                     <li class="text">
                         {block:Title}
-                            <h3 class="tumblr-title"><a href="{Permalink}">{Title}</a></h3>
+                            <h3><a class="tumblr-title" href="{Permalink}">{Title}</a></h3>
+                            <span class="tumblr-permalink">{Permalink}</span>
                         {/block:Title}
 
                         <span class="tumblr-body">
@@ -549,11 +542,13 @@ line-height: 150%;
 
                 {block:Photo}
                     <li class="photo">
-                        <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
+                        <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
+                        <span class="tumblr-permalink">{PhotoURL-HighRes}</span>
 
                         {block:Caption}
-                            <div class="caption">{Caption}</div>
+                            <div class="caption tumblr-body">{Caption}</div>
                         {/block:Caption}
+                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </li>
                 {/block:Photo}
 
@@ -564,6 +559,7 @@ line-height: 150%;
                         {block:Caption}
                             <div class="caption">{Caption}</div>
                         {/block:Caption}
+                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </li>
                 {/block:Photoset}
 
@@ -574,6 +570,7 @@ line-height: 150%;
                         {block:Source}
                             <div class="source">{Source}</div>
                         {/block:Source}
+                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </li>
                 {/block:Quote}
 
@@ -584,6 +581,7 @@ line-height: 150%;
                         {block:Description}
                             <div class="description">{Description}</div>
                         {/block:Description}
+                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </li>
                 {/block:Link}
 
@@ -604,6 +602,7 @@ line-height: 150%;
                                 </li>
                             {/block:Lines}
                         </ul>
+                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </li>
                 {/block:Chat}
 
@@ -614,6 +613,7 @@ line-height: 150%;
                         {block:Caption}
                             <div class="caption">{Caption}</div>
                         {/block:Caption}
+                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </li>
                 {/block:Video}
 
@@ -624,6 +624,7 @@ line-height: 150%;
                         {block:Caption}
                             <div class="caption">{Caption}</div>
                         {/block:Caption}
+                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </li>
                 {/block:Audio}
             {/block:Posts}
