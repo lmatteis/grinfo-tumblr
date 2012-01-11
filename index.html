@@ -116,18 +116,23 @@ function showIndex() {
       showPost($domPost, i);
     }
   }
-  var $heroes = $("div.heroes");
-  $("#all-posts").click(function(e) {
+  var $heroes = $("div.heroes"),
+      $allposts = $("#all-posts");
+  $allposts.click(function(e) {
     showAll();
     e.preventDefault();
     e.stopPropagation();
   });
+  if($children.length === 0) {
+    $heroes.html("<h2>Not Found</h2>");
+  }
   $heroes.fadeIn("slow");
 }
 function showAll() {
   var $tumblrData = $("#tumblr-data");
   var $children = $tumblrData.children();
   var $postgrid = $(".postgrid");
+  var $postsCont = $(".all-posts-cont");
   for(var i=0; i<$children.length; i++) {
     var $domPost = $children.eq(i);
     if($domPost) {
@@ -137,13 +142,18 @@ function showAll() {
   }
   var $heroes = $("div.heroes");
   $heroes.fadeOut("slow", function() {
-    $postgrid.fadeIn("slow");
+    $postsCont.fadeIn("slow");
   });
 }
 
 $(function(){
+var currPage = {CurrentPage};
 {block:IndexPage}
-  showIndex();
+  if(currPage === 1) {
+    showIndex();
+  } else {
+    showAll();
+  }
 {/block:IndexPage}
 {block:PermalinkPage}
   $("#tumblr-data").show();
@@ -230,7 +240,7 @@ h1.big {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-style: italic;
     font-weight: 600;
-    margin: 35px 0 0;
+    margin: 28px 0 0;
     padding: 0;
 }
 .headerleft a, .headerleft a:visited {
@@ -356,8 +366,8 @@ div.bioinfo {
     background-repeat: no-repeat;
     background-size: auto 4em;
     float: left;
-    margin-bottom: 2em;
-    margin-top: -2em;
+    margin-bottom: 0.8em;
+    margin-top: -0.8em;
     padding-left: 5em;
     width: 300px;
 }
@@ -416,6 +426,7 @@ ul.heroes a, .postgrid a {
 .postgrid li a:hover span.title
 {
   color: #00438a;
+  text-decoration:underline;
 }
 .heroes li.hero .thumb {
     height: 320px;
@@ -586,8 +597,20 @@ display: block;
       <a href="#" id="all-posts" class="btn large info">All posts &rarr;</a>
     </div>
   </div><!-- /index -->
-  <ul class="postgrid clearfix" style="display:none;"><!-- all-posts -->
-  </ul><!-- /all-posts -->
+  <div class="all-posts-cont" style="display: none;">
+    <ul class="postgrid clearfix"><!-- all-posts -->
+
+    </ul><!-- /all-posts -->
+    <div class="more">
+    {block:PreviousPage}
+        <a href="{PreviousPage}" class="btn large info">&larr; Previous</a>
+    {/block:PreviousPage}
+
+    {block:NextPage}
+        <a href="{NextPage}" class="btn large info">Next &rarr;</a>
+    {/block:NextPage}
+    </div>
+  </div>
 </div>
 {/block:IndexPage}
   <!-- data from tumblr which is hidden and displayed with JavaScript. Displaying HTML to allow SEO to crawl and get data -->
@@ -609,11 +632,11 @@ display: block;
 
                 {block:Photo}
                     <span class="photo">
-                        <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
+                        <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
                         <span class="tumblr-permalink" style="display:none">{PhotoURL-HighRes}</span>
 
                         {block:Caption}
-                            <div class="caption tumblr-body">{Caption}</div>
+                            <div class="caption tumblr-title">{Caption}</div>
                         {/block:Caption}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </span>
@@ -632,7 +655,7 @@ display: block;
 
                 {block:Quote}
                     <span class="quote">
-                        "{Quote}"
+                        <span class="tumblr-title">"{Quote}"</span>
 
                         {block:Source}
                             <div class="source">{Source}</div>
@@ -643,10 +666,11 @@ display: block;
 
                 {block:Link}
                     <span class="link">
-                        <a href="{URL}" class="link" {Target}>{Name}</a>
+                        <a href="{URL}" class="link tumblr-title" {Target}>{Name}</a>
+                        <span style="display:none;" class="tumblr-permalink">{URL}</span>
 
                         {block:Description}
-                            <div class="description">{Description}</div>
+                            <div class="description tumblr-body">{Description}</div>
                         {/block:Description}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </span>
@@ -655,7 +679,7 @@ display: block;
                 {block:Chat}
                     <span class="chat">
                         {block:Title}
-                            <h3><a href="{Permalink}">{Title}</a></h3>
+                            <h3><a href="{Permalink}" class="tumblr-title">{Title}</a></h3>
                         {/block:Title}
 
                         <ul class="chat">
@@ -678,7 +702,7 @@ display: block;
                         {Video-500}
 
                         {block:Caption}
-                            <div class="caption">{Caption}</div>
+                            <div class="caption tumblr-title">{Caption}</div>
                         {/block:Caption}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </span>
@@ -689,7 +713,7 @@ display: block;
                         {AudioPlayerBlack}
 
                         {block:Caption}
-                            <div class="caption">{Caption}</div>
+                            <div class="caption tumblr-title">{Caption}</div>
                         {/block:Caption}
                         <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </span>
@@ -703,7 +727,9 @@ display: block;
     <div class="row">
     <div id="footerwrap" class="span16">
       <div id="footer">
-        <p>&copy; 2012 <a href="http://pseudocodice.com/">Pseudo Codice</a>.</p>
+        <form action="/search" method="get" style="float:right">
+          <input type="text" name="q" value="{SearchQuery}" placeholder="Search"/>
+        </form>
         <div class="bioinfo">
           <dl>
             <dt>Organization</dt>
@@ -711,7 +737,7 @@ display: block;
             <dt>Last Edited</dt>
             <dd>January 5, 2012</dd>
           </dl>
-        </div>
+        </div><!-- /bioinfo -->
       </div>
     </div>
   </div><!-- /footer -->
