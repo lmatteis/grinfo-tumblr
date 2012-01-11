@@ -566,13 +566,14 @@ display: block;
         <div class="span11 headerright">
           <ul class="pills">
             <li class=""><a href="/"><img width="24" height="24" alt="" src="https://github.com/lmatteis/grinfo-tumblr/raw/master/images/home_32.png" class=""></a></li>
-            <li class="page_item page-item-2"><a href="#">About</a></li>
-            <li class="page_item page-item-1158"><a href="#">Projects</a></li>
-            <li class="page_item page-item-319"><a href="#">Blog</a></li>
-            <li class="page_item page-item-11 current_page_item"><a href="#">Contact</a></li>
-      
+            {block:HasPages} 
+              {block:Pages}
+            <li class="page_item"><a href="{URL}">{Label}</a></li>
+              {block:Pages}
+            {/block:HasPages}
+            <li class="page_item"><a href="/">Blog</a></li>
               <li>
-               <a href="#" rel="alternate" class="rss" style="color: #C66809">Feed</a>
+               <a href="/rss" rel="alternate" class="rss" style="color: #C66809">Feed</a>
               </li>
           </ul>
         </div>
