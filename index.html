@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>{Title}</title>
+  <title>{block:PostSummary}{PostSummary} - {/block:PostSummary}{Title}</title>
   <link rel="shortcut icon" href="{Favicon}">
   <link rel="alternate" type="application/rss+xml" href="{RSS}">
   {block:Description}
@@ -158,6 +158,13 @@ var currPage = {CurrentPage};
 {block:PermalinkPage}
   $("#tumblr-data").show();
 {/block:PermalinkPage}
+
+// first word of headerleft bold
+var $logo = $(".headerleft a"),
+    logoWords = $logo.text().split(" ");
+logoWords[0] = "<b>" + logoWords[0] + "</b>";
+$logo.html(logoWords.join(" "));
+
 });
 })();
 </script>
@@ -558,9 +565,9 @@ display: block;
   <div id="header">
     <div class="container">
       <div class="row">
-        <div class="span5">
+        <div class="span3">
           <div class="headerleft">
-            <a href="/"><b>Agrobiodiversity</b><br /> Informatics</a>
+            <a href="/">{Title}</a>
           </div>
         </div>
         <div class="span11 headerright">
