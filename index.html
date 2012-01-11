@@ -201,7 +201,7 @@ a.btn {
 img {
     border-style: none;
 }
-iframe {
+#tumblr_controls {
   display:none;
 }
 .span16 {
@@ -223,6 +223,7 @@ iframe {
 }
 .content p {
   line-height: 150%;
+  margin: 18px 0;
   /*
   margin: 0;
   padding: 0;
@@ -335,6 +336,26 @@ h1.big {
     margin-bottom: 5px;
     padding-left: 20px;
     text-decoration: none;
+}
+.sidebar .elem {
+  display: block;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #CCC;
+  position: relative;
+}
+.sidebar .elem:first-child {
+  border:0;
+  margin:0;
+  padding:0;
+}
+.sidebar .tweets {
+}
+.sidebar .likes > *{
+  margin-top:10px !important; 
+}
+.sidebar .likes > *:first-child{
+  margin: 0 !important;
 }
 .author {
   position: relative;
@@ -637,7 +658,7 @@ display: block;
                 {block:Text}
                     <span class="text">
                         {block:Title}
-                            <h1><a class="tumblr-title" href="{Permalink}">{Title}</a> <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small></h1>
+                            <h1><a class="tumblr-title" href="{Permalink}">{Title}</a> <small class="tumblr-date">{TimeAgo}</small></h1>
                             <span style="display: none;" class="tumblr-permalink">{Permalink}</span>
                         {/block:Title}
 
@@ -655,7 +676,7 @@ display: block;
                         {block:Caption}
                             <div class="caption tumblr-title">{Caption}</div>
                         {/block:Caption}
-                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
+                        <small class="tumblr-date">{TimeAgo}</small>
                     </span>
                 {/block:Photo}
 
@@ -666,7 +687,7 @@ display: block;
                         {block:Caption}
                             <div class="caption">{Caption}</div>
                         {/block:Caption}
-                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
+                        <small class="tumblr-date">{TimeAgo}</small>
                     </span>
                 {/block:Photoset}
 
@@ -677,7 +698,7 @@ display: block;
                         {block:Source}
                             <div class="source">{Source}</div>
                         {/block:Source}
-                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
+                        <small class="tumblr-date">{TimeAgo}</small>
                     </span>
                 {/block:Quote}
 
@@ -689,7 +710,7 @@ display: block;
                         {block:Description}
                             <div class="description tumblr-body">{Description}</div>
                         {/block:Description}
-                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
+                        <small class="tumblr-date">{TimeAgo}</small>
                     </span>
                 {/block:Link}
 
@@ -710,7 +731,7 @@ display: block;
                                 </li>
                             {/block:Lines}
                         </ul>
-                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
+                        <small class="tumblr-date">{TimeAgo}</small>
                     </span>
                 {/block:Chat}
 
@@ -721,7 +742,7 @@ display: block;
                         {block:Caption}
                             <div class="caption tumblr-title">{Caption}</div>
                         {/block:Caption}
-                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
+                        <small class="tumblr-date">{TimeAgo}</small>
                     </span>
                 {/block:Video}
 
@@ -732,32 +753,36 @@ display: block;
                         {block:Caption}
                             <div class="caption tumblr-title">{Caption}</div>
                         {/block:Caption}
-                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
+                        <small class="tumblr-date">{TimeAgo}</small>
                     </span>
                 {/block:Audio}
             {/block:Posts}
       </div><!-- /tumblr-data -->
       <div class="sidebar span5" style="display: none;">
-            {block:Posts}
-        {block:GroupMembers} 
-        <h2>Author</h2>
-        <div class="author withimage">
-          <span class="thumb team" style="background-image:url({PostAuthorPortraitURL-40})"></span>
-          <div class="title">
-            {PostAuthorName}
-          </div>
-          {block:HasTags}<small>{lang:Tagged with}: {block:Tags}<a href="{TagURL}">{Tag}</a>{/block:Tags}</small>{/block:HasTags}
+        {block:Posts}
+          {block:HasTags}<small class="tags elem">{lang:Tagged with}: {block:Tags}<a href="{TagURL}">{Tag}</a> {/block:Tags}</small>{/block:HasTags}
+        {/block:Posts}
+        <div class="elem likes">
+          <!-- twitter -->
+          <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+          <!-- facebook -->
+          <iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=153824968019983" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe>
+          <!-- G+ -->
+          <g:plusone size="medium"></g:plusone>
+          <!-- Place this render call where appropriate -->
+          <script type="text/javascript">
+            (function() {
+              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+              po.src = 'https://apis.google.com/js/plusone.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+          </script>
         </div>
-        {/block:GroupMembers}
-            {/block:Posts}
-<style>
-#dsq-global-toolbar,
-#dsq-sort-by, #dsq-comments,
-#dsq-pagination, 
-#dsq-content > h3{
-  display: none;
-}
-</style>
+        <div class="tweets elem">
+          <strong class="title"><span class="count">42</span> tweets link to this blog post.</strong>
+        </div>
       </div><!-- /sidebar -->
     </div><!-- /row -->
   </div><!-- /main content container -->
