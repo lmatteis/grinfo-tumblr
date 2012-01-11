@@ -157,12 +157,13 @@ var currPage = {CurrentPage};
 {/block:IndexPage}
 {block:PermalinkPage}
   $("#tumblr-data").show();
+  $(".sidebar").show();
 {/block:PermalinkPage}
 
 // first word of headerleft bold
 var $logo = $(".headerleft a"),
     logoWords = $logo.text().split(" ");
-logoWords[0] = "<b>" + logoWords[0] + "</b>";
+logoWords[0] = "<b>" + logoWords[0] + "</b><br />";
 $logo.html(logoWords.join(" "));
 
 });
@@ -230,6 +231,10 @@ iframe {
 .content h1 a, .content h1 a:visited {
   color: #383D44;
   text-decoration: none;
+}
+.content img {
+  display: block;
+  margin:auto;
 }
 h1.big {
     font-size: 42px;
@@ -305,22 +310,10 @@ h1.big {
     z-index: 50;
 }
 .sidebar {
-    display: inline;
-    float: right;
-    font-size: 14px;
-    margin: 0;
-    padding: 0 0 20px 20px;
 }
 .sidebar ul {
-    list-style: none outside none;
-    margin: 0;
-    padding: 0;
 }
 .sidebar ul li {
-    display: block;
-    margin-bottom: 1px;
-    margin-top: 1px;
-    padding: 0;
 }
 .sidebar ul li:first-child h2, #services {
     margin-top: 0;
@@ -329,7 +322,6 @@ h1.big {
     color: #383D44;
     font-size: 18px;
     font-weight: 700;
-    margin: 30px 0 0;
     padding: 0;
 }
 .sidebar p {
@@ -343,6 +335,24 @@ h1.big {
     margin-bottom: 5px;
     padding-left: 20px;
     text-decoration: none;
+}
+.author {
+  position: relative;
+}
+.author.withimage {
+  padding-left: 50px;
+}
+.author .thumb {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.thumb.article, .thumb.team {
+  width: 40px;
+  height: 40px;
+  box-shadow: inset rgba(0,0,0,.25) 0px 0px 10px;
+  -moz-box-shadow: inset rgba(0,0,0,.25) 0px 0px 10px;
+  -webkit-box-shadow: inset rgba(0,0,0,.25) 0px 0px 10px;
 }
 #footerwrap {
     border-top: 1px solid #E0E1E4;
@@ -481,7 +491,6 @@ small.date {
 }
 small {
     color: #888888;
-    display: block;
     font-size: 12px;
     font-weight: 300;
     line-height: 150%;
@@ -565,7 +574,7 @@ display: block;
   <div id="header">
     <div class="container">
       <div class="row">
-        <div class="span3">
+        <div class="span5">
           <div class="headerleft">
             <a href="/">{Title}</a>
           </div>
@@ -621,20 +630,19 @@ display: block;
   </div>
 </div>
 {/block:IndexPage}
-  <!-- data from tumblr which is hidden and displayed with JavaScript. Displaying HTML to allow SEO to crawl and get data -->
-  <div id="tumblr-data" class="span11 content" style="display: none;">
+    <!-- data from tumblr which is hidden and displayed with JavaScript. Displaying HTML to allow SEO to crawl and get data -->
+    <div id="tumblr-data" class="span11 content" style="display: none">
             {block:Posts}
                 {block:Text}
                     <span class="text">
                         {block:Title}
-                            <h1><a class="tumblr-title" href="{Permalink}">{Title}</a></h1>
+                            <h1><a class="tumblr-title" href="{Permalink}">{Title}</a> <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small></h1>
                             <span style="display: none;" class="tumblr-permalink">{Permalink}</span>
                         {/block:Title}
 
                         <span class="tumblr-body">
                         {Body}
                         </span>
-                        <small class="tumblr-date">{ShortMonth} {DayOfMonth} {Year}</small>
                     </span>
                 {/block:Text}
 
@@ -727,7 +735,21 @@ display: block;
                     </span>
                 {/block:Audio}
             {/block:Posts}
-  </div><!-- /tumblr-data -->
+      </div><!-- /tumblr-data -->
+      <div class="sidebar span5" style="display: none;">
+            {block:Posts}
+        {block:GroupMembers} 
+        <h2>Author</h2>
+        <div class="author withimage">
+          <span class="thumb team" style="background-image:url({PostAuthorPortraitURL-40})"></span>
+          <div class="title">
+            {PostAuthorName}
+          </div>
+          {block:HasTags}<small>{lang:Tagged with}: {block:Tags}<a href="{TagURL}">{Tag}</a>{/block:Tags}</small>{/block:HasTags}
+        </div>
+        {/block:GroupMembers}
+            {/block:Posts}
+      </div><!-- /sidebar -->
     </div><!-- /row -->
   </div><!-- /main content container -->
   <div style="clear:both;"></div>
