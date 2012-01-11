@@ -341,6 +341,7 @@ h1.big {
 }
 .author.withimage {
   padding-left: 50px;
+  min-height: 40px;
 }
 .author .thumb {
   position: absolute;
@@ -749,6 +750,14 @@ display: block;
         </div>
         {/block:GroupMembers}
             {/block:Posts}
+<style>
+#dsq-global-toolbar,
+#dsq-sort-by, #dsq-comments,
+#dsq-pagination, 
+#dsq-content > h3{
+  display: none;
+}
+</style>
       </div><!-- /sidebar -->
     </div><!-- /row -->
   </div><!-- /main content container -->
