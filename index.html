@@ -6,6 +6,7 @@
   <meta name="if:Show Tumblr Controls" content="1" />
   <meta name="if:Enable Social Buttons" content="1" />
   <meta name="text:Google Analytics ID" content="" />
+  <meta name="image:Logo" content="" />
 
   <title>{block:PostSummary}{PostSummary} - {/block:PostSummary}{Title}</title>
   <link rel="shortcut icon" href="{Favicon}">
@@ -261,12 +262,20 @@ h1.big {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-style: italic;
     font-weight: 600;
-    margin: 28px 0 0;
     padding: 0;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-origin: padding-box;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: auto 4em;
+    height: 90px;
+display:table;
 }
 .headerleft a, .headerleft a:visited {
+display:table-cell; vertical-align:middle;
     color: #383D44;
-    float: left;
     font-style: normal;
     margin: 0;
     padding:0;
@@ -408,18 +417,11 @@ h1.big {
 }
 div.bioinfo {
     text-align: left;
-    background-attachment: scroll;
-    background-clip: border-box;
-    background-color: transparent;
-    background-image: url("https://github.com/lmatteis/grinfo-tumblr/raw/master/images/bioversity_logo.png");
-    background-origin: padding-box;
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-size: auto 4em;
+
+
     float: left;
     margin-bottom: 0.8em;
     margin-top: -0.8em;
-    padding-left: 5em;
     width: 300px;
 }
 div.bioinfo dl {
@@ -577,6 +579,14 @@ line-height: 150%;
 display: block;
 }
 
+</style>
+<style>
+{block:IfLogoImage}
+.headerleft {
+    background-image: url("{image:Logo}");
+    padding-left: 5em;
+}
+{/block:IfLogoImage}
 </style>
 </head>
 <!-- templates -->
@@ -811,7 +821,14 @@ display: block;
         <form action="/search" method="get" style="float:right">
           <input type="text" name="q" value="{SearchQuery}" placeholder="Search"/>
         </form>
-        <p><a href="http://elysium-theme.tumblr.com/">Elysium Theme</a> by <a href="http://pseudocodice.com">Luca Matteis</a></p>
+        <div class="bioinfo">
+          <dl>
+            <dt>Design by</dt>
+            <dd><a href="http://pseudocodice.com">Luca Matteis</a></dd>
+            <dt>Theme URL</dt>
+            <dd><a href="http://elysium-theme.tumblr.com/">Elysium Theme</a></dd>
+          </dl>
+        </div><!-- /bioinfo -->
       </div>
     </div>
   </div><!-- /footer -->
