@@ -1,6 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+  <!-- DEFAULT VARIABLES -->
+  <meta name="text:Like Buttons Code" content=""/>
+  <meta name="if:Show Twitter Links" content="1" />
+  <meta name="if:Show Tumblr Controls" content="1" />
+
   <title>{block:PostSummary}{PostSummary} - {/block:PostSummary}{Title}</title>
   <link rel="shortcut icon" href="{Favicon}">
   <link rel="alternate" type="application/rss+xml" href="{RSS}">
@@ -190,10 +195,10 @@ body p {
 a {
   color: #3E90C6;
   text-decoration: underline;
-  transition: .2s ease;
-  -webkit-transition: .2s ease;
-  -moz-transition: .2s ease;
-  -o-transition: .2s ease;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
 }
 a.btn {
     text-decoration: none !important;
@@ -201,9 +206,11 @@ a.btn {
 img {
     border-style: none;
 }
+{block:IfNotShowTumblrControls}
 #tumblr_controls {
   display:none;
 }
+{/block:IfNotShowTumblrControls}
 .span16 {
   overflow:hidden;
 }
@@ -289,18 +296,18 @@ h1.big {
     margin-bottom: 5px;
 }
 .pills a {
-    color: #333333;
-    font-size: 14px;
+  color: #333333;
+  font-size: 14px;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
 }
 .pills li a:hover {
   background: #DDD;
   color: #333!important;
   text-decoration: none!important;
   text-shadow: 0 1px 1px white;
-  transition: 1s ease;
-  -webkit-transition: 1s ease;
-  -moz-transition: 1s ease;
-  -o-transition: 1s ease;
 }
 .content_bg {
     background: url("https://github.com/lmatteis/grinfo-tumblr/raw/master/images/page_top_bg.png") no-repeat scroll 50% 100% #F4F4F4;
@@ -611,7 +618,7 @@ display: block;
             {/block:HasPages}
             <li class="page_item"><a href="/">Blog</a></li>
               <li>
-               <a href="/rss" rel="alternate" class="rss" style="color: #C66809">Feed</a>
+               <a href="{RSS}" rel="alternate" class="rss" style="color: #C66809">Feed</a>
               </li>
           </ul>
         </div>
@@ -762,27 +769,16 @@ display: block;
         {block:Posts}
           {block:HasTags}<small class="tags elem">{lang:Tagged with}: {block:Tags}<a href="{TagURL}">{Tag}</a> {/block:Tags}</small>{/block:HasTags}
         {/block:Posts}
+        {block:IfLikeButtonsCode}
         <div class="elem likes">
-          <!-- twitter -->
-          <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-          <!-- facebook -->
-          <iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=153824968019983" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe>
-          <!-- G+ -->
-          <g:plusone size="medium"></g:plusone>
-          <!-- Place this render call where appropriate -->
-          <script type="text/javascript">
-            (function() {
-              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-              po.src = 'https://apis.google.com/js/plusone.js';
-              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-            })();
-          </script>
+          {text:Like Buttons Code}
         </div>
+        {/block:IfLikeButtonsCode}
+        {block:IfShowTwitterLinks}
         <div class="tweets elem">
           <strong class="title"><span class="count">42</span> tweets link to this blog post.</strong>
         </div>
+        {/block:IfShowTwitterLinks}
       </div><!-- /sidebar -->
     </div><!-- /row -->
   </div><!-- /main content container -->
