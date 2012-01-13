@@ -2,9 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <!-- DEFAULT VARIABLES -->
-  <meta name="text:Like Buttons Code" content=""/>
   <meta name="if:Show Twitter Links" content="1" />
   <meta name="if:Show Tumblr Controls" content="1" />
+  <meta name="if:Enable Social Buttons" content="1" />
+  <meta name="text:Google Analytics ID" content="" />
 
   <title>{block:PostSummary}{PostSummary} - {/block:PostSummary}{Title}</title>
   <link rel="shortcut icon" href="{Favicon}">
@@ -769,11 +770,27 @@ display: block;
         {block:Posts}
           {block:HasTags}<small class="tags elem">{lang:Tagged with}: {block:Tags}<a href="{TagURL}">{Tag}</a> {/block:Tags}</small>{/block:HasTags}
         {/block:Posts}
-        {block:IfLikeButtonsCode}
+
+        {block:IfEnableSocialButtons}
         <div class="elem likes">
-          {text:Like Buttons Code}
-        </div>
-        {/block:IfLikeButtonsCode}
+          <!-- twitter -->
+          <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          <!-- facebook -->
+          <iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe>
+          <!-- G+ -->
+          <g:plusone size="medium"></g:plusone>
+          <!-- Place this render call where appropriate -->
+          <script type="text/javascript">
+            (function() {
+              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+              po.src = 'https://apis.google.com/js/plusone.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+          </script>
+        </div><!-- /likes -->
+        {block:IfEnableSocialButtons}
+
         {block:IfShowTwitterLinks}
         <div class="tweets elem">
           <strong class="title"><span class="count">42</span> tweets link to this blog post.</strong>
@@ -802,5 +819,8 @@ display: block;
     </div>
   </div><!-- /footer -->
 
+  {block:IfGoogleAnalyticsID}
+    <script type="text/javascript">var gaJsHost=(("https:"==document.location.protocol)?"https://ssl.":"http://www.");document.write(unescape("%3Cscript src='"+gaJsHost+"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">try{var pageTracker=_gat._getTracker("{text:Google Analytics ID}");pageTracker._trackPageview()}catch(err){}</script>
+  {block:IfGoogleAnalyticsID}
 </body>
 </html>
