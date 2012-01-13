@@ -90,9 +90,13 @@ function addOther($parent, data) {
 function getData($post) {
     var ret = {};
     var parser = new BodyParser($post.find(".tumblr-body"));
-    ret.imgSrc = parser.getFirstImage();
-    if(!ret.imgSrc) { // if no image is found look directly inside the $post for it
-      ret.imgSrc = $post.find("img").eq(0).attr("src");
+    if($post.hasClass("video") || $post.hasClass("audio")) {
+      ret.imgSrc = "https://github.com/lmatteis/grinfo-tumblr/raw/master/images/play.png";
+    } else {
+      ret.imgSrc = parser.getFirstImage();
+      if(!ret.imgSrc) { // if no image is found look directly inside the $post for it
+        ret.imgSrc = $post.find("img").eq(0).attr("src");
+      }
     }
     ret.permalink = $post.find(".tumblr-permalink").text();
     ret.title = $post.find(".tumblr-title").text();
@@ -791,7 +795,7 @@ display: block;
           <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
           <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
           <!-- facebook -->
-          <iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe>
+          <iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=280&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:280px; height:21px;" allowTransparency="true"></iframe>
           <!-- G+ -->
           <g:plusone size="medium"></g:plusone>
           <!-- Place this render call where appropriate -->
