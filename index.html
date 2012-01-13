@@ -743,8 +743,9 @@ display: block;
                 {block:Chat}
                     <span class="chat">
                         {block:Title}
-                            <h3><a href="{Permalink}" class="tumblr-title">{Title}</a></h3>
+                            <h1><a href="{Permalink}" class="tumblr-title">{Title}</a></h1>
                         {/block:Title}
+                        <span style="display:none;" class="tumblr-permalink">{Permalink}</span>
 
                         <ul class="chat">
                             {block:Lines}
@@ -764,6 +765,7 @@ display: block;
                 {block:Video}
                     <span class="video">
                         {Video-500}
+                        <span style="display:none;" class="tumblr-permalink">{Permalink}</span>
 
                         {block:Caption}
                             <div class="caption tumblr-title">{Caption}</div>
@@ -775,6 +777,7 @@ display: block;
                 {block:Audio}
                     <span class="audio">
                         {AudioPlayerBlack}
+                        <span style="display:none;" class="tumblr-permalink">{Permalink}</span>
 
                         {block:Caption}
                             <div class="caption tumblr-title">{Caption}</div>
