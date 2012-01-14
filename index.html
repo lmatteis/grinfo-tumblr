@@ -157,6 +157,28 @@ function showAll() {
   });
 }
 
+function findTweets() {
+  var $title = $($("#tweets-title").html());
+  var tweetHtml = $("#tweet").html();
+  var $cont = $(".tweets");
+
+  $.getJSON("http://search.twitter.com/search.json?callback=?&rpp=100&q="+document.URL, function(data) {
+    if(data.results.length) { // tweets link to this post!
+      var word = "tweet links";
+      if(data.results.length > 1) {
+        word = "tweets link"; 
+      }
+      $title.find("count").html(data.results.length);
+      $title.html(data.results.length + " " + word +" to this post");
+      $cont.append($title);
+    } else {
+      $title.html("No tweets link to this post yet");
+      $cont.append($title);
+    }
+    $cont.fadeIn("slow");
+  });
+}
+
 $(function(){
 var currPage = {CurrentPage};
 {block:IndexPage}
@@ -177,6 +199,9 @@ var $logo = $(".headerleft a"),
 logoWords[0] = "<b>" + logoWords[0] + "</b><br />";
 $logo.html(logoWords.join(" "));
 
+{block:IfShowTwitterLinks}
+findTweets();
+{/block:IfShowTwitterLinks}
 });
 })();
 </script>
@@ -371,6 +396,29 @@ display:table-cell; vertical-align:middle;
   padding:0;
 }
 .sidebar .tweets {
+}
+.tweet {
+  width: 48px;
+  height: 48px;
+  margin: 0px 4px 4px 0px;
+  float: left;
+  position: relative;
+}
+.tweet .thumb {
+  width: 48px;
+  height: 48px;
+}
+.tweet .popup {
+  display: none;
+  position: absolute;
+  right: 55px;
+  top: -5px;
+  width: 180px;
+  padding: 5px 20px 5px 10px;
+  background: black;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
 .sidebar .likes > *{
   margin-top:10px !important; 
@@ -622,6 +670,12 @@ display: block;
     </a>
   </li>
 </script>
+<script id="tweets-title" type="text/html">
+  <strong class="title">No tweets link to this post.</strong>
+</script>
+<script id="tweet" type="text/html">
+  <a target="_blank" href="http://twitter.com/ps_tweet/status/158112888496721920" class="tweet"><span class="thumb" style="background-image:url(http://a2.twimg.com/profile_images/347568720/twitter_normal.jpg)"></span><span class="popup"><span class="title">@ps_tweet</span><small>http://t.co/eHZrgwtW</small></span></a>
+</script>
 <!-- /templates -->
 <body>
   <div id="header">
@@ -702,7 +756,7 @@ display: block;
                 {block:Photo}
                     <span class="photo">
                         <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
-                        <span class="tumblr-permalink" style="display:none">{PhotoURL-HighRes}</span>
+                        <span style="display:none;" class="tumblr-permalink">{Permalink}</span>
 
                         {block:Caption}
                             <div class="caption tumblr-title">{Caption}</div>
@@ -713,10 +767,11 @@ display: block;
 
                 {block:Photoset}
                     <span class="photoset">
-                        {Photoset-500}
+                        <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
+                        <span style="display:none;" class="tumblr-permalink">{Permalink}</span>
 
                         {block:Caption}
-                            <div class="caption">{Caption}</div>
+                            <div class="caption tumblr-title">{Caption}</div>
                         {/block:Caption}
                         <small class="tumblr-date">{TimeAgo}</small>
                     </span>
@@ -725,6 +780,7 @@ display: block;
                 {block:Quote}
                     <span class="quote">
                         <span class="tumblr-title">"{Quote}"</span>
+                        <span style="display:none;" class="tumblr-permalink">{Permalink}</span>
 
                         {block:Source}
                             <div class="source">{Source}</div>
@@ -736,8 +792,7 @@ display: block;
                 {block:Link}
                     <span class="link">
                         <a href="{URL}" class="link tumblr-title" {Target}>{Name}</a>
-                        <span style="display:none;" class="tumblr-permalink">{URL}</span>
-
+                        <span style="display:none;" class="tumblr-permalink">{Permalink}</span>
                         {block:Description}
                             <div class="description tumblr-body">{Description}</div>
                         {/block:Description}
@@ -817,11 +872,8 @@ display: block;
         </div><!-- /likes -->
         {block:IfEnableSocialButtons}
 
-        {block:IfShowTwitterLinks}
-        <div class="tweets elem">
-          <strong class="title"><span class="count">42</span> tweets link to this blog post.</strong>
-        </div>
-        {/block:IfShowTwitterLinks}
+        <div class="tweets elem" style="display: none">
+        </div><!-- /tweets -->
       </div><!-- /sidebar -->
     </div><!-- /row -->
   </div><!-- /main content container -->
