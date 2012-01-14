@@ -273,7 +273,7 @@ h1.big {
     background-origin: padding-box;
     background-position: left center;
     background-repeat: no-repeat;
-    background-size: auto 4em;
+    background-size: 4em;
     height: 90px;
 display:table;
 }
@@ -573,6 +573,11 @@ line-height: 150%;
 }
 .postgrid .title, .postgrid .date {
   display: block;
+}
+.postgrid .title {
+  max-height: 92px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
 }
 .postgrid .date {
   position: absolute;
