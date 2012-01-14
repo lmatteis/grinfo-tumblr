@@ -168,9 +168,18 @@ function findTweets() {
       if(data.results.length > 1) {
         word = "tweets link"; 
       }
-      $title.find("count").html(data.results.length);
       $title.html(data.results.length + " " + word +" to this post");
       $cont.append($title);
+      for(var i=0; i<data.results.length; i++) {
+        var el = data.results[i];
+        var $tweet = $(tweetHtml); // this creates the dom element
+        $tweet.attr("href", "http://twitter.com/"+el.from_user+"/status/" + el.id);
+        $tweet.find(".thumb").attr("style", "background-image:url("+el.profile_image_url+")");
+        $tweet.find(".popup .title").html("@" + el.from_user);
+        $tweet.find(".popup small").html(el.text);
+
+        $cont.append($tweet);
+      }
     } else {
       $title.html("No tweets link to this post yet");
       $cont.append($title);
@@ -357,6 +366,7 @@ display:table-cell; vertical-align:middle;
     z-index: 50;
 }
 .sidebar {
+  margin-bottom:20px;
 }
 .sidebar ul {
 }
@@ -394,6 +404,10 @@ display:table-cell; vertical-align:middle;
   border:0;
   margin:0;
   padding:0;
+}
+.sidebar .elem strong.title{
+  display: block;
+  margin-bottom:10px;
 }
 .sidebar .tweets {
 }
@@ -674,7 +688,7 @@ display: block;
   <strong class="title">No tweets link to this post.</strong>
 </script>
 <script id="tweet" type="text/html">
-  <a target="_blank" href="http://twitter.com/ps_tweet/status/158112888496721920" class="tweet"><span class="thumb" style="background-image:url(http://a2.twimg.com/profile_images/347568720/twitter_normal.jpg)"></span><span class="popup"><span class="title">@ps_tweet</span><small>http://t.co/eHZrgwtW</small></span></a>
+  <a target="_blank" href="#" class="tweet"><span class="thumb" style=""></span><span class="popup"><span class="title"></span><small></small></span></a>
 </script>
 <!-- /templates -->
 <body>
